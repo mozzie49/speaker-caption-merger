@@ -1,0 +1,12 @@
+1
+00:00:01,000 --> 00:00:03,500
+Shall we start with the launch plan?
+
+2
+00:00:05,000 --> 00:00:07,000
+Yes, let’s keep the small details.
+Even the second line.
+
+3
+00:00:09,000 --> 00:00:11,500
+Great. One conversation, every voice.
