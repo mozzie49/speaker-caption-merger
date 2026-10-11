@@ -1,0 +1,13 @@
+{
+  "name": "speaker-caption-merger",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first browser utility for combining per-speaker SRT and WebVTT exports.",
+  "scripts": {
+    "test": "node --test tests/core.test.cjs tests/app.test.cjs",
+    "check": "node --check core.js && node --check app.js && node --check demo.js && node --check tests/browser-smoke.cjs && npm test",
+    "test:browser": "node tests/browser-smoke.cjs",
+    "serve": "python3 -m http.server 8080 --bind 127.0.0.1"
+  },
+  "license": "MIT"
+}

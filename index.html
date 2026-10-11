@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="Combine separate speakers’ SRT and VTT exports into one labeled, chronological transcript. Runs locally in your browser; preserves overlapping speech.">
+  <title>Speaker Caption Merger · Every voice, in order</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="core.js" defer></script>
+  <script src="demo.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">≋</span> Speaker Caption Merger</a><span class="privacy-pill"><span aria-hidden="true">●</span> On your device</span></header>
+  <main>
+    <noscript><p>This tool needs JavaScript to parse captions locally in your browser. Enable JavaScript for this page to use it.</p></noscript>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">SEPARATE TRACKS. ONE CONVERSATION.</p>
+      <h1 id="page-title">Every voice,<br><span>in order.</span></h1>
+      <p class="lede">Turn per-speaker SRT and VTT files into one readable transcript. Name each voice, align the clocks, and keep the moments people talk over each other.</p>
+      <div class="promise"><span>No uploads</span><span>No account</span><span>No install</span></div>
+    </section>
+
+    <section class="workspace" aria-label="Caption merger">
+      <div class="input-panel">
+        <div class="section-heading"><div><p class="step">01 / SOURCES</p><h2>Bring your voices together</h2></div><button id="demo-button" class="text-button" type="button">Try an example ↗</button></div>
+        <div id="drop-zone" class="drop-zone">
+          <span class="upload-symbol" aria-hidden="true">↑</span>
+          <strong>Drop SRT or VTT files here</strong>
+          <p>One file per speaker. You can mix formats.</p>
+          <label class="button primary file-picker" for="file-input">Choose files</label>
+          <input id="file-input" class="visually-hidden" type="file" accept=".srt,.vtt" multiple>
+          <small>UTF-8 · 10 MiB per file · 25 MiB total · up to 100 files</small>
+        </div>
+        <p id="input-status" class="input-status" role="status" aria-live="polite">Everything stays in this tab. Refreshing clears your files.</p>
+        <div id="tracks" class="tracks" aria-label="Source files"></div>
+        <div id="track-tools" class="track-tools" hidden><p>Offsets are in seconds. Positive = later, negative = earlier.</p><button id="clear-button" class="text-button" type="button">Clear all</button></div>
+      </div>
+
+      <section class="output-panel" aria-labelledby="output-title">
+        <div class="section-heading"><div><p class="step">02 / MERGED OUTPUT</p><h2 id="output-title">The whole conversation</h2></div><span id="ready-badge" class="badge">Waiting for files</span></div>
+        <div id="empty-state" class="empty-state"><span aria-hidden="true">“</span><h3>A place for every speaker</h3><p>Add your files or try the two-speaker example.<br>Nothing gets uploaded, even in the demo.</p></div>
+        <div id="results" hidden>
+          <div class="stats"><div><strong id="cue-count">0</strong><span>original cues</span></div><div><strong id="speaker-count">0</strong><span>speaker labels</span></div><div><strong id="overlap-count">0</strong><span>overlap groups</span></div></div>
+          <div id="merge-error" class="error-box" role="alert" hidden></div>
+          <div id="warnings" class="warnings" aria-live="polite"></div>
+          <div class="preview-heading"><label for="preview-format">Preview</label><select id="preview-format"><option value="text">Labeled text</option><option value="markdown">Markdown source</option><option value="srt">Labeled SRT</option></select></div>
+          <pre id="preview" tabindex="0" aria-label="Merged transcript preview"></pre>
+          <p id="preview-note" class="preview-note"></p>
+          <div class="downloads" aria-label="Download merged output"><button type="button" data-export="text" class="button primary" disabled>Download TXT</button><button type="button" data-export="markdown" class="button" disabled>Markdown</button><button type="button" data-export="srt" class="button" disabled>SRT</button><button type="button" data-export="json" class="button" disabled>JSON archive</button></div>
+          <p class="export-note">SRT keeps original cue intervals, including overlaps. Some players show only one overlapping cue. TXT and Markdown are best for reading; JSON keeps source text, identifiers, metadata and timings.</p>
+        </div>
+      </section>
+    </section>
+    <section class="how-it-works" aria-label="How it works">
+      <div><span>01</span><h3>Export timed captions</h3><p>Start with one SRT or VTT for each speaker, using the same recording timeline.</p></div>
+      <div><span>02</span><h3>Label & align</h3><p>Filenames become speaker names. Edit labels and add an offset if a track starts late.</p></div>
+      <div><span>03</span><h3>Take the conversation</h3><p>Download a chronological transcript with all cues intact. Simultaneous speech stays simultaneous.</p></div>
+    </section>
+    <footer><p>A small tool for an awkward manual job.</p><p>This merges timed exports. It doesn’t transcribe audio, identify speakers, or recover timing from TXT. <a href="README.md">Read the guide</a></p></footer>
+  </main>
+</body>
+</html>
