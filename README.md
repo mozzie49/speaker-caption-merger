@@ -2,7 +2,11 @@
 
 **Separate tracks. One conversation.** A small, local-first browser tool for combining per-speaker SRT and WebVTT exports into a labeled chronological transcript.
 
+**[Open the live tool →](https://mozzie49.github.io/speaker-caption-merger/)**
+
 [中文说明](#中文说明) · [Synthetic examples](examples/) · [MIT license](LICENSE)
+
+Use it in your browser, or download the folder for fully offline use. Selected caption files are processed locally in either case.
 
 ## Open it. Drop files. Download.
 
@@ -70,7 +74,7 @@ No dependencies are needed for the app or core tests. Node.js 18+ is required on
 npm run check
 ```
 
-This checks JavaScript syntax, deterministic parser/merge/export regressions (including a 1,500-cue round-trip), and simulated-DOM app regressions. See [the validation record](VALIDATION.md) for checks actually completed and remaining browser verification.
+This checks JavaScript syntax, deterministic parser/merge/export regressions (including a 1,500-cue round-trip), and simulated-DOM app regressions. See [the validation record](VALIDATION.md) for completed checks and browser coverage.
 
 Optional real-browser smoke test:
 
@@ -89,6 +93,8 @@ Files: `core.js` is the dependency-free parser/merger/export API (also CommonJS-
 ## 中文说明
 
 **把每位说话人的字幕，按时间合成一段完整对话。**
+
+**[在线使用 →](https://mozzie49.github.io/speaker-caption-merger/)** 在线版同样在浏览器本地处理所选字幕，不上传文件内容。
 
 这是一个本地浏览器小工具，用于合并按说话人分别导出的 SRT / VTT 字幕。下载整个目录后，直接打开 `index.html` 即可使用，不需要安装、账号、API 密钥或联网。
 

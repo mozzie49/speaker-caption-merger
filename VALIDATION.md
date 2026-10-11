@@ -10,10 +10,27 @@
 - Example data is synthetic English/Chinese dialogue; no private or copyrighted conversation was used
 - A local Node.js sanity check merged and exported 50,000 synthetic cues (the browser UI limit) without loss. This is not a browser-performance guarantee
 
-## Real browser verification: pending
+## Real Chromium verification: passed, 2026-10-11
 
-The `tests/browser-smoke.cjs` script and GitHub Actions workflow are provided, but the real-browser suite has **not passed in this build environment**. Installed Chromium could not create its local process socket, including on an approved retry. The supported cloud browser disallowed `file://` and the localhost preview. These restrictions were respected; no public deployment was created to work around them.
+The [GitHub Actions run](https://github.com/mozzie49/speaker-caption-merger/actions/runs/38135364837) passed for the complete application source at commit [ca47406140a7e76e6e03c5b4214b5193bf447c48](https://github.com/mozzie49/speaker-caption-merger/commit/ca47406140a7e76e6e03c5b4214b5193bf447c48): all 50 core/simulated-DOM tests, syntax checks and the actual Playwright Chromium smoke suite passed.
 
-The smoke suite is intended to verify direct-file launch, synthetic demo/import, all four downloads, SRT reparse, offsets and labels, invalid UTF-8, malformed cues, error recovery, repeated example/reset actions, clear during a pending read, drag/drop, stable tie order, mobile horizontal overflow, zero HTTP(S) requests, and browser errors. It saves desktop/mobile screenshots and downloaded test outputs under ignored `test-results/`.
+The real-browser suite verified direct `file://` launch, synthetic demo/import, all four downloads, SRT reparse, offsets and labels, invalid UTF-8, malformed cues, error recovery, repeated example/reset actions, clear during a pending read, drag/drop, stable tie order, no horizontal overflow at a mobile-sized viewport, and no browser errors. The **direct-file test** also observed zero HTTP(S) requests; that assertion does not describe normal page-load traffic on a hosted website.
 
-Run the workflow after publishing to a repository, or execute the documented browser command in a browser-capable environment. Until that succeeds, treat rendering, browser downloads and the complete browser smoke flow as unverified. Simulated-DOM tests are not a substitute for that step.
+Desktop and mobile-viewport screenshots were saved as CI artifacts and visually inspected. The suite saves screenshots and downloaded outputs under ignored `test-results/` for local runs too.
+
+## Hosted application checks: passed, 2026-10-11
+
+The [live application](https://mozzie49.github.io/speaker-caption-merger/) was separately checked in a cloud browser:
+
+- Synthetic demo: 6 cues, 2 speaker labels and 2 overlap groups
+- Invalid `-1.001`-second offset blocks every export; changing it to `0.500` restores valid output
+- Downloaded JSON parses successfully with 6 cues, 2 source tracks, a 500 ms offset and the first shifted cue starting at 1,500 ms
+- Downloaded SRT reparses to 6 cues with the expected intervals intact
+- Clear resets the interface; selecting actual local SRT and VTT fixtures imports them successfully
+- Repeated demo activation protects already imported sources; reloading clears the session
+
+## Coverage limits and initial environment history
+
+The initial local build environment could not launch Chromium because its process socket was restricted, and its cloud browser disallowed local file/preview URLs. No local browser pass was claimed. Subsequent authorized repository CI and hosted checks supplied the real-browser verification above.
+
+Browser evidence covers Chromium and a mobile-sized Chromium viewport. It does not establish Safari/Firefox compatibility, testing on a physical phone, subtitle-player behavior for simultaneous SRT cues, or browser performance at every supported input limit. Simulated-DOM tests remain supplemental to the actual browser checks.
