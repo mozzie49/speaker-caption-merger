@@ -1,0 +1,34 @@
+name: Caption integrity and browser smoke
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax, parser and simulated DOM regressions
+        run: npm run check
+      - name: Install browser test tooling (not app dependencies)
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Real Chromium smoke test
+        run: npm run test:browser
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-smoke-evidence
+          path: test-results/
+          if-no-files-found: ignore
